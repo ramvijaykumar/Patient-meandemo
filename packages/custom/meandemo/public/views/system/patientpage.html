@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+	<div ng-controller="patientController">	
+
+		<md-input-container class="md-block" flex-gt-sm="">
+		             <input name="search" placeholder="Search" ng-model="patient.firstName" >
+	
+		</md-input-container>
+
+			<table class="table table-hover">
+				<tr>
+					<th>Full Name</th>
+					<th>Age</th>
+					<th>DOB</th>
+					<th>Gender</th>
+					<th>Contact</th>
+				</tr>
+				<tr ng-repeat="patient in getpatientdata | filter: patient.firstName | filter: patient.lastName">
+					<td><span ng-bind="patient.firstName"></span>&nbsp<span ng-bind="patient.lastName"></span></td>				
+					<td><span ng-bind="patient.age"></span></td>				
+					<td><span ng-bind="patient.dob | date"></span></td>				
+					<td><span ng-bind="patient.gender"></span></td>				
+					<td><span ng-bind="patient.contact"></span></td			
+				</tr>
+			</table>
+
+			<md-button class="md-raised md-primary" ng-click="formDisplay()" ng-hide="hidebutton">Add New Patient</md-button>
+			<md-button class="md-raised md-primary" ng-hide="showbutton" ng-click="formDisplay()">Cancel</md-button>
+
+			<form name="patientform" class="form-control" ng-if="showform" novalidate>
+				<h3>Enter Patient Details</h3>
+				<md-input-container class="md-block" flex-gt-sm="">
+		            <label>First name</label>
+		             <input required=""  name="firstname" ng-model="patient.fname" required>  
+		             <div ng-messages="patientform.firstname.$invalid">
+						  <div ng-message="required">Please Enter a First Name</div>
+					 </div>      			
+		        </md-input-container>
+		        <md-input-container class="md-block" flex-gt-sm="">
+		            <label>Last name</label>
+		             <input required=""  name="lastname" ng-model="patient.lname" required>  
+		             	<div ng-messages="patientform.lastname.$invalid">
+						  <div ng-message="required">Please Enter a Last Name</div>
+					 	</div>     			
+		        </md-input-container>
+				<md-input-container class="md-block" flex-gt-sm="">
+		            <label>Age</label>
+		             <input required="" name="age" type="number" name="age" ng-model="patient.age" ng-minlength="1" ng-maxlength="3" required>  
+		             	<div ng-messages="patientform.age.$invalid">
+						  <div ng-message="required">Please Enter a valid age</div>
+					 	</div>         			
+		        </md-input-container>
+				<md-card-content>
+			      <div layout="row">			        
+			        <md-select required="" name="gender" ng-model="patient.gender" placeholder="Gender" class="md-no-underline">
+				            <div ng-messages="patientform.age.$invalid">
+							  <div ng-message="required">Please Choose a Gender</div>
+						 	</div>
+				          <md-option value="M">Male</md-option>
+				          <md-option value="F">Female</md-option>
+			        </md-select>
+			      </div>				
+        		Date of Birth <md-datepicker required=""  name="dob" ng-model="patient.dob" md-placeholder="Enter date">
+        						<div ng-messages="patientform.dob.$invalid">
+								  <div ng-message="required">Please Choose a Date of Birth</div>
+							 	</div>
+        					 </md-datepicker></br>      			
+				<md-input-container class="md-block" flex-gt-sm="">
+		            <label>Contact</label>
+		             <input required=""  name="contact" ng-model="patient.contact" ng-minlength="10" ng-maxlength="11"required>  
+		             	<div ng-messages="patientform.age.$invalid">
+						  <div ng-message="required">Please Enter a Contact Number</div>
+					 	</div>      			
+		        </md-input-container>
+				<md-input-container class="md-block">
+		          <label>Message</label>
+		          <textarea ng-model="patient.message" md-maxlength="150" rows="5" md-select-on-focus="" required>
+		          	<div ng-messages="patientform.age.$invalid">
+						  <div ng-message="required">Please Enter a Message</div>
+					</div>
+		          </textarea>
+		        </md-input-container>
+				 <md-button class="md-raised md-primary" ng-disabled="patientform.$invalid" ng-click="addPatient(patient)">Add Patient</md-button>
+			</form>
+	</div>
+</html>
